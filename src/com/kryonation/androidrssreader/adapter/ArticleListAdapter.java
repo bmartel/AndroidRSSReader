@@ -56,9 +56,13 @@ public class ArticleListAdapter extends ArrayAdapter<Article> {
 		}
 		dateView.setText(pubDate);
 
-		
-		if (!article.isRead()){
-			LinearLayout row = (LinearLayout) rowView.findViewById(R.id.article_row_layout);
+		LinearLayout row = (LinearLayout) rowView.findViewById(R.id.article_row_layout);
+		if (article.isRead()){
+			Log.d("RSS_Reader1","Setting article as read");
+			row.setBackgroundColor(Color.rgb(230,230,230));
+			textView.setTypeface(Typeface.DEFAULT);
+		}else{
+			Log.d("RSS_Reader1","Setting article as unread");
 			row.setBackgroundColor(Color.WHITE);
 			textView.setTypeface(Typeface.DEFAULT_BOLD);
 		}
