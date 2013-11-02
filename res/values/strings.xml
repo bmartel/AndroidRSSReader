@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">RSS Reader</string>
+    <string name="title_article_detail">Post Detail</string>
+    <string name="title_article_list">Rss Reader</string>
+	<string name="btn_offline_reading">Save for later</string>
+	<string name="btn_mark_unread">Mark unread</string>
+	<string name="btn_refresh">Refresh</string>
+	
+	<string-array name="nhl_feeds">
+		<item>http://www.nhl.com/rss/news.xml</item>
+		<item>http://mapleleafs.nhl.com/rss/news.xml</item>
+		<item>http://ducks.nhl.com/rss/news.xml</item>
+		<item>http://devils.nhl.com/rss/news.xml</item>
+		<item>http://sabres.nhl.com/rss/news.xml</item>
+		<item>http://canucks.nhl.com/rss/news.xml</item>
+		<item>http://flames.nhl.com/rss/news.xml</item>
+		<item>http://oilers.nhl.com/rss/news.xml</item>
+		<item>http://kings.nhl.com/rss/news.xml</item>
+		<item>http://sharks.nhl.com/rss/news.xml</item>
+		<item>http://jets.nhl.com/rss/news.xml</item>
+		<item>http://canadiens.nhl.com/rss/news.xml</item>
+		<item>http://senators.nhl.com/rss/news.xml</item>
+		<item>http://panthers.nhl.com/rss/news.xml</item>
+		<item>http://penguins.nhl.com/rss/news.xml</item>
+		<item>http://flyers.nhl.com/rss/news.xml</item>
+		<item>http://avalanche.nhl.com/rss/news.xml</item>
+		<item>http://coyotes.nhl.com/rss/news.xml</item>
+		<item>http://bluejackets.nhl.com/rss/news.xml</item>
+		<item>http://wild.nhl.com/rss/news.xml</item>
+		<item>http://redwings.nhl.com/rss/news.xml</item>
+		<item>http://stars.nhl.com/rss/news.xml</item>
+		<item>http://rangers.nhl.com/rss/news.xml</item>
+		<item>http://bruins.nhl.com/rss/news.xml</item>
+		<item>http://islanders.nhl.com/rss/news.xml</item>
+		<item>http://blues.nhl.com/rss/news.xml</item>
+		<item>http://capitals.nhl.com/rss/news.xml</item>
+		<item>http://lightning.nhl.com/rss/news.xml</item>
+		<item>http://predators.nhl.com/rss/news.xml</item>
+		<item>http://blackhawks.nhl.com/rss/news.xml</item>
+		<item>http://hurricanes.nhl.com/rss/news.xml</item>
+	</string-array>
+</resources>
