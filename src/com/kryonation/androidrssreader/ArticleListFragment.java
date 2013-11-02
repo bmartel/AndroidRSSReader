@@ -5,6 +5,7 @@ import com.kryonation.androidrssreader.rss.RssService;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -102,14 +103,21 @@ public class ArticleListFragment extends ListFragment {
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.actionbar_refresh) {
-        	refreshList();
-        	return true;
+     // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.actionbar_refresh:
+            	refreshList();
+                return true;
+            case R.id.actionbar_settings:
+            	Log.d("RSS_Reader1", "Settings action fired");
+            	return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return false;
+//        return false;
     }
     
+    //Refresh the list adapter using Async operator RssService
     private void refreshList(){
     	rssService = new RssService(this);
         rssService.execute(BLOG_URL);

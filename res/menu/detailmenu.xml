@@ -8,4 +8,8 @@
           android:icon="@drawable/offline"
           android:title="@string/btn_offline_reading"
           android:showAsAction="ifRoom|withText"/>
+	<item android:id="@+id/actionbar_settings"
+          android:icon="@drawable/ic_action_settings"
+          android:title="@string/btn_settings"
+          android:showAsAction="ifRoom|withText"/>
 </menu>
