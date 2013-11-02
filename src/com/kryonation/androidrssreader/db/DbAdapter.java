@@ -13,12 +13,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 
 public class DbAdapter{
 	
 	public static final String KEY_ROWID = BaseColumns._ID;
 	public static final String KEY_GUID = "guid";
+	public static final String KEY_DATE = "pub_date";
 	public static final String KEY_TITLE = "title";
 	public static final String KEY_CONTENT = "description";
 	public static final String KEY_LINK = "link";
@@ -27,11 +29,12 @@ public class DbAdapter{
 	
 	private static final String DATABASE_NAME = "blogposts";
 	private static final String DATABASE_TABLE1 = "blogpostlist";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	
 	private static final String DATABASE_CREATE_LIST_TABLE = "create table " + DATABASE_TABLE1 + " (" + 
 																KEY_ROWID +" integer primary key autoincrement, "+ 
 																KEY_GUID + " text not null, " +
+																KEY_DATE + " text null, " +
 																KEY_TITLE + " text null, " +
 																KEY_CONTENT + " text null, " +
 																KEY_LINK + " text null, " +
@@ -123,6 +126,7 @@ public class DbAdapter{
         		sqLiteDatabase.query(true, DATABASE_TABLE1, new String[] {
                 		KEY_ROWID,
                 		KEY_GUID, 
+                		KEY_DATE, 
                 		KEY_TITLE, 
                 		KEY_CONTENT, 
                 		KEY_LINK, 
@@ -135,12 +139,17 @@ public class DbAdapter{
                 		null, 
                 		null, 
                 		null);
-        if (mCursor != null && mCursor.getCount() > 0) {
+        int rowCount = mCursor.getCount();
+        Log.d("RSS_Reader1", "Querying the DB for offline articles");
+        if (mCursor != null && rowCount > 0) {
+        	Log.d("RSS_Reader1", "DB Cursor retrieved " +rowCount+" rows");
         	if (mCursor.moveToFirst()) {
-
+        		Log.d("RSS_Reader1", "Processing DB record");
                 while (mCursor.isAfterLast() == false) {
+                	Log.d("RSS_Reader1", "Creating a new Article from DB record");
                 	Article a = new Article();
            			a.setGuid(mCursor.getString(mCursor.getColumnIndex(KEY_GUID)));
+           			a.setPubDate(mCursor.getString(mCursor.getColumnIndex(KEY_DATE)));
            			a.setTitle(mCursor.getString(mCursor.getColumnIndex(KEY_TITLE)));
            			a.setDescription(mCursor.getString(mCursor.getColumnIndex(KEY_CONTENT)));
            			a.setAuthor(mCursor.getString(mCursor.getColumnIndex(KEY_LINK)));
@@ -148,11 +157,14 @@ public class DbAdapter{
            			a.setDbId(mCursor.getLong(mCursor.getColumnIndex(KEY_ROWID)));
            			a.setOffline(mCursor.getInt(mCursor.getColumnIndex(KEY_OFFLINE)) > 0);
            			articleList.add(a);
+           			Log.d("RSS_Reader1", "Added article to the list");
                 	mCursor.moveToNext();
                 }
             }
+        	Log.d("RSS_Reader1", "Returning the Article list");
    			return articleList;
         }
+        Log.d("RSS_Reader1", "DB Cursor was null, or no rows were retrieved");
         return null;
     }
     public boolean markAsUnread(String guid) {
@@ -167,10 +179,22 @@ public class DbAdapter{
         return sqLiteDatabase.update(DATABASE_TABLE1, args, KEY_GUID + "='" + guid+"'", null) > 0;
     }
 
-    public boolean saveForOffline(String guid) {
+    public boolean saveForOffline(String guid, String date, String title, String content, String link) {
         ContentValues args = new ContentValues();
         args.put(KEY_OFFLINE, true);
-        return sqLiteDatabase.update(DATABASE_TABLE1, args, KEY_GUID + "='" + guid+"'", null) > 0;
+        args.put(KEY_DATE, date);
+        args.put(KEY_TITLE, title);
+        args.put(KEY_CONTENT, content);
+        args.put(KEY_LINK, link);
+        
+        Log.d("RSS_Reader1", "Attempting to save article offline");
+        boolean savedCorrectly = sqLiteDatabase.update(DATABASE_TABLE1, args, KEY_GUID + "='" + guid+"'", null) > 0;
+        if(savedCorrectly)
+        	Log.d("RSS_Reader1", "Saved Article to Database!");
+        else
+        	Log.d("RSS_Reader1", "Failed to save correctly");
+        
+        return savedCorrectly;
     }
     
     public boolean removeFromOffline(String guid) {

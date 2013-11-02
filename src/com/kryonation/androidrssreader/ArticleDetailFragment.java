@@ -32,7 +32,8 @@ public class ArticleDetailFragment extends Fragment {
 	DbAdapter db;
 
 	public ArticleDetailFragment() {
-		setHasOptionsMenu(true); // this enables action bar to be set from fragment
+		setHasOptionsMenu(true); // this enables action bar to be set from
+									// fragment
 	}
 
 	@Override
@@ -68,7 +69,7 @@ public class ArticleDetailFragment extends Fragment {
 						+ DateUtils.getDateDifference(pDate);
 			} catch (ParseException e) {
 				Log.d("DATE PARSING", "Error parsing date..");
-				pubDate = "published on ?" ; // displayedArticle.getAuthor();
+				pubDate = "published on ?"; // displayedArticle.getAuthor();
 			}
 
 			String content = displayedArticle.getDescription() + " "
@@ -97,10 +98,25 @@ public class ArticleDetailFragment extends Fragment {
 		int id = item.getItemId();
 		Log.d("item ID : ", "onOptionsItemSelected Item ID " + id);
 		if (id == R.id.actionbar_saveoffline) {
-			Toast.makeText(getActivity().getApplicationContext(),
-					"This article has been saved of offline reading.",
-					Toast.LENGTH_LONG).show();
-			return true;
+			db.openToWrite();
+			boolean saved = db.saveForOffline(displayedArticle.getGuid(),
+					displayedArticle.getPubDate(),
+					displayedArticle.getTitle(),
+					displayedArticle.getDescription(),
+					displayedArticle.getAuthor());
+			db.close();
+			if (saved) {
+				Toast.makeText(getActivity().getApplicationContext(),
+						"This article has been saved for offline reading.",
+						Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(
+						getActivity().getApplicationContext(),
+						"There was trouble saving the article for offline reading.",
+						Toast.LENGTH_LONG).show();
+			}
+
+			return saved;
 		} else if (id == R.id.actionbar_markunread) {
 			db.openToWrite();
 			db.markAsUnread(displayedArticle.getGuid());

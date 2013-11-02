@@ -15,6 +15,7 @@ public class NetworkConnection {
 	 */
 	private NetworkConnection(Context context){
 		setContext(context);
+		isNetworkAvailable = false;
 	}
 	
 	/**
