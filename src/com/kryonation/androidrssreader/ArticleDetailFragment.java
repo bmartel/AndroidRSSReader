@@ -10,11 +10,14 @@ import com.kryonation.androidrssreader.db.DbAdapter;
 import com.kryonation.androidrssreader.rss.domain.Article;
 import com.kryonation.androidrssreader.util.DateUtils;
 
+import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ArticleDetailFragment extends Fragment {
-
+	public static final int TITLE_FONT_SIZE = 20;
+	public static final int DATE_FONT_SIZE = 12;
+	public static final int CONTENT_FONT_SIZE = 16;
 	public static final String ARG_ITEM_ID = "item_id";
 
 	Article displayedArticle;
@@ -59,10 +64,15 @@ public class ArticleDetailFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_article_detail,
 				container, false);
 		if (displayedArticle != null) {
+
+			//Get the article details from the article object
 			String title = displayedArticle.getTitle();
 			String pubDate = displayedArticle.getPubDate();
+			String content = displayedArticle.getDescription() + " "
+					+ displayedArticle.getContentLink();
 			SimpleDateFormat df = new SimpleDateFormat(
 					"EEE, dd MMM yyyy kk:mm:ss Z", Locale.ENGLISH);
+			
 			try {
 				Date pDate = df.parse(pubDate);
 				pubDate = "This article was published "
@@ -71,17 +81,33 @@ public class ArticleDetailFragment extends Fragment {
 				Log.d("DATE PARSING", "Error parsing date..");
 				pubDate = "published on ?"; // displayedArticle.getAuthor();
 			}
-
-			String content = displayedArticle.getDescription() + " "
-					+ displayedArticle.getContentLink();
-			((TextView) rootView.findViewById(R.id.article_title))
-					.setText(title);
-			((TextView) rootView.findViewById(R.id.article_author))
-					.setText(pubDate);
-			TextView contentView = (TextView) rootView
-					.findViewById(R.id.article_detail);
+			
+			//Get the view components
+			TextView contentView = (TextView) rootView.findViewById(R.id.article_detail);
+			TextView titleView =(TextView) rootView.findViewById(R.id.article_title);
+			TextView authorView = (TextView) rootView.findViewById(R.id.article_author);
+			
+			//Get the Font preferences
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());			
+			Double fontScale = Double.parseDouble(prefs.getString("font_size_preference", "1.0"));
+			
+			//Set the content to the article's details
+			titleView.setText(title);	
+			authorView.setText(pubDate);
 			contentView.setText(Html.fromHtml(content));
 			contentView.setMovementMethod(LinkMovementMethod.getInstance());
+			
+			Log.d("RSS_Reader1", "Setting font preferences");
+			
+			//Set the font preferences
+			titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(TITLE_FONT_SIZE * fontScale));
+			authorView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(DATE_FONT_SIZE * fontScale));
+			contentView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(CONTENT_FONT_SIZE * fontScale));
+			
+			Log.d("RSS_Reader1", "TitleSize: " + titleView.getTextSize());
+			Log.d("RSS_Reader1", "DateSize: " + authorView.getTextSize());
+			Log.d("RSS_Reader1", "ContentSize: " + contentView.getTextSize());
+			
 		} else {
 			Log.d("RSS_Reader1", "Article detail was empty");
 		}

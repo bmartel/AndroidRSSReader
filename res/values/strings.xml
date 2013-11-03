@@ -40,7 +40,7 @@
 		<item>http://blackhawks.nhl.com/rss/news.xml</item>
 		<item>http://hurricanes.nhl.com/rss/news.xml</item>
 	</string-array>
-		<string-array name="nhl_teams">
+	<string-array name="nhl_teams">
 		<item>NHL</item>
 		<item>Toronto Maple Leafs</item>
 		<item>Anaheim Ducks</item>
@@ -73,7 +73,23 @@
 		<item>Chicago Blackhawks</item>
 		<item>Carolina Hurricanes</item>
 	</string-array>
+	
+	<string-array name="font_sizes_display">
+	    <item>Small</item>
+	    <item>Medium</item>
+	    <item>Large</item>
+	    <item>XLarge</item>
+	</string-array>
+		<string-array name="font_sizes">
+	    <item>0.8</item>
+	    <item>1.0</item>
+	    <item>1.2</item>
+	    <item>1.6</item>
+	</string-array>
+	
 		<string name="nhl_teams">NHL Teams</string>
 		<string name="nhl_rss_feeds">NHL RSS Feeds</string>
 		<string name="rss_selection">RSS Selection</string>
+		<string name="display_setting_title">Display</string>
+		<string name="font_size_title">Font Size</string>
 </resources>

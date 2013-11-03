@@ -15,6 +15,17 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+            android:title="@string/display_setting_title">
+                
+        <ListPreference
+                android:key="font_size_preference"
+                android:title="@string/font_size_title"
+                android:entries="@array/font_sizes_display"
+                android:entryValues="@array/font_sizes"
+                android:dialogTitle="@string/font_size_title" 
+                android:defaultValue="1.0"/>
 
+    </PreferenceCategory>
     
 </PreferenceScreen>
