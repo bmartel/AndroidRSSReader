@@ -8,6 +8,7 @@
         <ListPreference
                 android:key="rss_feed_preference"
                 android:title="@string/nhl_rss_feeds"
+                android:summary="@string/nhl_rss_feeds_summary"
                 android:entries="@array/nhl_teams"
                 android:entryValues="@array/nhl_feeds"
                 android:dialogTitle="@string/nhl_teams" 
@@ -17,14 +18,16 @@
 
     <PreferenceCategory
             android:title="@string/display_setting_title">
-                
+
         <ListPreference
                 android:key="font_size_preference"
                 android:title="@string/font_size_title"
+                android:summary="@string/font_size_title_summary"
                 android:entries="@array/font_sizes_display"
                 android:entryValues="@array/font_sizes"
                 android:dialogTitle="@string/font_size_title" 
                 android:defaultValue="1.0"/>
+        
 
     </PreferenceCategory>
     

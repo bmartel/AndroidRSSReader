@@ -12,6 +12,7 @@ import com.kryonation.androidrssreader.util.DateUtils;
 
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -27,12 +28,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ArticleDetailFragment extends Fragment {
+public class ArticleDetailFragment extends Fragment implements OnSharedPreferenceChangeListener {
 	public static final int TITLE_FONT_SIZE = 20;
 	public static final int DATE_FONT_SIZE = 12;
 	public static final int CONTENT_FONT_SIZE = 16;
 	public static final String ARG_ITEM_ID = "item_id";
-
+	
+	private SharedPreferences settings;
+	private TextView titleView;
+	private TextView contentView;
+	private TextView authorView;
 	Article displayedArticle;
 	DbAdapter db;
 
@@ -44,6 +49,8 @@ public class ArticleDetailFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+	    settings.registerOnSharedPreferenceChangeListener(this);
 		db = new DbAdapter(getActivity());
 		if (getArguments().containsKey(Article.KEY)) {
 			displayedArticle = (Article) getArguments().getSerializable(
@@ -83,30 +90,23 @@ public class ArticleDetailFragment extends Fragment {
 			}
 			
 			//Get the view components
-			TextView contentView = (TextView) rootView.findViewById(R.id.article_detail);
-			TextView titleView =(TextView) rootView.findViewById(R.id.article_title);
-			TextView authorView = (TextView) rootView.findViewById(R.id.article_author);
+			contentView = (TextView) rootView.findViewById(R.id.article_detail);
+			titleView =(TextView) rootView.findViewById(R.id.article_title);
+			authorView = (TextView) rootView.findViewById(R.id.article_author);
 			
-			//Get the Font preferences
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());			
-			Double fontScale = Double.parseDouble(prefs.getString("font_size_preference", "1.0"));
-			
+
+//			String themeName = prefs.getString("theme_color_preference", "theme_default");
+//			
+//			int id = 1;
+//			
+//			String[] theme = getResources().getStringArray(id);
 			//Set the content to the article's details
 			titleView.setText(title);	
 			authorView.setText(pubDate);
 			contentView.setText(Html.fromHtml(content));
 			contentView.setMovementMethod(LinkMovementMethod.getInstance());
 			
-			Log.d("RSS_Reader1", "Setting font preferences");
-			
-			//Set the font preferences
-			titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(TITLE_FONT_SIZE * fontScale));
-			authorView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(DATE_FONT_SIZE * fontScale));
-			contentView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(CONTENT_FONT_SIZE * fontScale));
-			
-			Log.d("RSS_Reader1", "TitleSize: " + titleView.getTextSize());
-			Log.d("RSS_Reader1", "DateSize: " + authorView.getTextSize());
-			Log.d("RSS_Reader1", "ContentSize: " + contentView.getTextSize());
+
 			
 		} else {
 			Log.d("RSS_Reader1", "Article detail was empty");
@@ -155,6 +155,27 @@ public class ArticleDetailFragment extends Fragment {
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+		// Process application setting changes
+		//Get the Font and Theme preferences
+//		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());			
+		if(key.equalsIgnoreCase("font_size_preference")){
+			Double fontScale = Double.parseDouble(prefs.getString(key, "1.0"));
+			
+			Log.d("RSS_Reader1", "Setting font preferences");
+			
+			//Set the font preferences
+			titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(TITLE_FONT_SIZE * fontScale));
+			authorView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(DATE_FONT_SIZE * fontScale));
+			contentView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(CONTENT_FONT_SIZE * fontScale));
+			
+			Log.d("RSS_Reader1", "TitleSize: " + titleView.getTextSize());
+			Log.d("RSS_Reader1", "DateSize: " + authorView.getTextSize());
+			Log.d("RSS_Reader1", "ContentSize: " + contentView.getTextSize());
 		}
 	}
 }

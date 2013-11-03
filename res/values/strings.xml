@@ -87,9 +87,36 @@
 	    <item>1.6</item>
 	</string-array>
 	
-		<string name="nhl_teams">NHL Teams</string>
-		<string name="nhl_rss_feeds">NHL RSS Feeds</string>
-		<string name="rss_selection">RSS Selection</string>
-		<string name="display_setting_title">Display</string>
-		<string name="font_size_title">Font Size</string>
+	<string-array name="theme_preference_display">
+	    <item>Default (Limestone)</item>
+	    <item>Midnight</item>
+	</string-array>
+	<string-array name="theme_preference">
+	    <item>theme_default</item>
+	    <item>theme_dark</item>
+	</string-array>
+	<string name="nhl_teams">NHL Teams</string>
+	<string name="nhl_rss_feeds_summary">Follow your favorite team, or the NHL as whole.</string>
+	<string name="nhl_rss_feeds">NHL RSS Feeds</string>
+	<string name="rss_selection">RSS Selection</string>
+	<string name="display_setting_title">Display</string>
+	<string name="font_size_title">Font Size</string>
+	<string name="font_size_title_summary">Need Larger text? Up the font size!</string>
+	<string name="font_color_title">Color Theme</string>
+	<string name="font_color_title_summary">Change the Detail View colors.</string>
+	<!-- Theme Preferences -->
+	<string-array name="theme_default">
+	    <item>#FFFFFF</item> <!-- Background Color -->
+	    <item>#38b4ea</item> <!-- Title Font Color -->
+	    <item>#A8A8A8</item> <!-- Date Font Color -->
+	    <item>#333333</item> <!-- Content Font Color -->
+	</string-array>
+	
+	<string-array name="theme_dark">
+	    <item>#3b3938</item> <!-- Background Color -->
+	    <item>#ff652d</item> <!-- Title Font Color -->
+	    <item>#efefef</item> <!-- Date Font Color -->
+	    <item>#fcfcfc</item> <!-- Content Font Color -->
+	</string-array>
+		
 </resources>
