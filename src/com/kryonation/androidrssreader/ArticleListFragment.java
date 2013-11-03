@@ -5,6 +5,7 @@ import com.kryonation.androidrssreader.rss.RssService;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -15,13 +16,14 @@ import android.view.View;
 import android.widget.ListView;
 
 
-public class ArticleListFragment extends ListFragment {
+public class ArticleListFragment extends ListFragment implements OnSharedPreferenceChangeListener {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     private static final String BLOG_URL = "http://www.nhl.com/rss/news.xml"; //String[] NHL_FEEDS = getResources().getStringArray(R.array.nhl_feeds); 
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
     private RssService rssService;
+    private SharedPreferences settings;
 
     public interface Callbacks {
         public void onItemSelected(String id);
@@ -40,7 +42,10 @@ public class ArticleListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        refreshList();
+        settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+	    settings.registerOnSharedPreferenceChangeListener(this);
+	    
+        refreshList(settings.getString("rss_feed_preference",BLOG_URL));
     }
 
     @Override
@@ -108,7 +113,7 @@ public class ArticleListFragment extends ListFragment {
      // Handle item selection
         switch (item.getItemId()) {
             case R.id.actionbar_refresh:
-            	refreshList();
+            	refreshList(settings.getString("rss_feed_preference", BLOG_URL));
                 return true;
             case R.id.actionbar_settings:
             	Log.d("RSS_Reader1", "Settings action fired");
@@ -123,12 +128,21 @@ public class ArticleListFragment extends ListFragment {
     }
     
     //Refresh the list adapter using Async operator RssService
-    private void refreshList(){
-    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-    	
+    private void refreshList(String feed){
+	
     	// Get the selected feed from preferences, or the default
-    	String feed = prefs.getString("rss_feed_preference",BLOG_URL);
     	rssService = new RssService(this);
         rssService.execute(feed);
     }
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		// Update the list fragment if associated preferences change
+		if(key.equalsIgnoreCase("rss_feed_preference")){
+			String feed_url = sharedPreferences.getString(key, BLOG_URL);
+			refreshList(feed_url);
+		}
+		
+	}
+    
 }
