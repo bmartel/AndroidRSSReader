@@ -40,4 +40,40 @@
 		<item>http://blackhawks.nhl.com/rss/news.xml</item>
 		<item>http://hurricanes.nhl.com/rss/news.xml</item>
 	</string-array>
+		<string-array name="nhl_teams">
+		<item>NHL</item>
+		<item>Toronto Maple Leafs</item>
+		<item>Anaheim Ducks</item>
+		<item>New Jersey Devils</item>
+		<item>Buffalo Sabres</item>
+		<item>Vancouver Canucks</item>
+		<item>Calgary Flames</item>
+		<item>Edmonton Oilers</item>
+		<item>Los Angeles Kings</item>
+		<item>San Jose Sharks</item>
+		<item>Winnipeg Jets</item>
+		<item>Montreal Canadiens</item>
+		<item>Ottawa Senators</item>
+		<item>Florida Panthers</item>
+		<item>Pittsburgh Penguins</item>
+		<item>Philadelphia Flyers</item>
+		<item>Colorado Avalanche</item>
+		<item>Phoenix Coyotes</item>
+		<item>Columbus Blue Jackets</item>
+		<item>Minnesota Wild</item>
+		<item>Detroit Red Wings</item>
+		<item>Dallas Stars</item>
+		<item>New York Rangers</item>
+		<item>Boston Bruins</item>
+		<item>New York Islanders</item>
+		<item>St. Louis Blues</item>
+		<item>Washington Capitals</item>
+		<item>Tampa Bay Lightning</item>
+		<item>Nashville Predators</item>
+		<item>Chicago Blackhawks</item>
+		<item>Carolina Hurricanes</item>
+	</string-array>
+		<string name="nhl_teams">NHL Teams</string>
+		<string name="nhl_rss_feeds">NHL RSS Feeds</string>
+		<string name="rss_selection">RSS Selection</string>
 </resources>

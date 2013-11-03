@@ -1,8 +1,10 @@
 package com.kryonation.androidrssreader;
-
+import android.preference.PreferenceManager;
 import com.kryonation.androidrssreader.rss.RssService;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -110,6 +112,9 @@ public class ArticleListFragment extends ListFragment {
                 return true;
             case R.id.actionbar_settings:
             	Log.d("RSS_Reader1", "Settings action fired");
+
+                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(settingsIntent);
             	return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -119,7 +124,11 @@ public class ArticleListFragment extends ListFragment {
     
     //Refresh the list adapter using Async operator RssService
     private void refreshList(){
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    	
+    	// Get the selected feed from preferences, or the default
+    	String feed = prefs.getString("rss_feed_preference",BLOG_URL);
     	rssService = new RssService(this);
-        rssService.execute(BLOG_URL);
+        rssService.execute(feed);
     }
 }

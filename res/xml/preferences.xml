@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+                
+    <PreferenceCategory
+            android:title="@string/rss_selection">
+                
+        <ListPreference
+                android:key="rss_feed_preference"
+                android:title="@string/nhl_rss_feeds"
+                android:entries="@array/nhl_teams"
+                android:entryValues="@array/nhl_feeds"
+                android:dialogTitle="@string/nhl_teams" 
+                android:defaultValue="http://www.nhl.com/rss/news.xml"/>
+
+    </PreferenceCategory>
+
+
+    
+</PreferenceScreen>

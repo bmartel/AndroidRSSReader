@@ -44,40 +44,40 @@ public class RssService extends AsyncTask<String, Void, List<Article>> {
 
 	protected void onPostExecute(final List<Article> articles) {
 		Log.d("ASYNC", "POST EXECUTE");
-		articleListFrag.getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (articles == null) {
-					Log.d("RSS_Reader1", "articles are null");
-				}
-
-				for (Article a : articles) {
-					Log.d("DB", "Searching DB for GUID: " + a.getGuid());
-					DbAdapter dba = new DbAdapter(articleListFrag.getActivity());
-					dba.openToRead();
-					Article fetchedArticle = dba.getBlogListing(a.getGuid());
-					dba.close();
-					if (fetchedArticle == null) {
-						Log.d("DB",
-								"Found entry for first time: " + a.getTitle());
-						dba = new DbAdapter(articleListFrag.getActivity());
-						dba.openToWrite();
-						dba.insertBlogListing(a.getGuid());
-						dba.close();
-					} else {
-						a.setDbId(fetchedArticle.getDbId());
-						a.setOffline(fetchedArticle.isOffline());
-						a.setRead(fetchedArticle.isRead());
+		if (articles != null) {
+			articleListFrag.getActivity().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					
+						Log.d("RSS_Reader1", "articles are null");
+						for (Article a : articles) {
+							Log.d("DB", "Searching DB for GUID: " + a.getGuid());
+							DbAdapter dba = new DbAdapter(articleListFrag.getActivity());
+							dba.openToRead();
+							Article fetchedArticle = dba.getBlogListing(a.getGuid());
+							dba.close();
+							if (fetchedArticle == null) {
+								Log.d("DB",
+										"Found entry for first time: " + a.getTitle());
+								dba = new DbAdapter(articleListFrag.getActivity());
+								dba.openToWrite();
+								dba.insertBlogListing(a.getGuid());
+								dba.close();
+							} else {
+								a.setDbId(fetchedArticle.getDbId());
+								a.setOffline(fetchedArticle.isOffline());
+								a.setRead(fetchedArticle.isRead());
+							}
+						}
+						ArticleListAdapter adapter = new ArticleListAdapter(
+								articleListFrag.getActivity(), articles);
+						articleListFrag.setListAdapter(adapter);
+						adapter.notifyDataSetChanged();
 					}
-				}
-				ArticleListAdapter adapter = new ArticleListAdapter(
-						articleListFrag.getActivity(), articles);
-				articleListFrag.setListAdapter(adapter);
-				adapter.notifyDataSetChanged();
-
-			}
-		});
-		progress.dismiss();
+				
+			});
+			progress.dismiss();
+		}
 	}
 
 	@Override
