@@ -39,5 +39,14 @@
         
 		
     </PreferenceCategory>
+     <PreferenceCategory 
+        android:title="@string/pref_offline_storage_title"
+        android:key="pref_key_storage_settings">
+        <CheckBoxPreference
+            android:key="pref_key_offline_storage"
+            android:summary="@string/pref_summary_offline_storage"
+            android:title="@string/pref_title_offline"
+            android:defaultValue="false" />
+        </PreferenceCategory>
     
 </PreferenceScreen>

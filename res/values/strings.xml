@@ -119,6 +119,9 @@
 	    <item>#efefef</item> <!-- Date Font Color -->
 	    <item>#fcfcfc</item> <!-- Content Font Color -->
 	</string-array>
+	<string name="pref_title_offline" >Offline Mode</string>
+	<string name="pref_offline_storage_title">Storage</string>
+	<string name="pref_summary_offline_storage">Allow Articles to be saved for offline viewing</string>
 	    
 		
 </resources>

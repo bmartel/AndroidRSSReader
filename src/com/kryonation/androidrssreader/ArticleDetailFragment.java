@@ -43,6 +43,7 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 	private View rootView;
 	private LinearLayout layout;
 	private double fontScale;
+	private boolean offline_mode;
 	private String [] themeSettings;
 	Article displayedArticle;
 	DbAdapter db;
@@ -58,6 +59,7 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 		settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    settings.registerOnSharedPreferenceChangeListener(this);
 	    
+	    offline_mode = settings.getBoolean("pref_key_storage_settings", false);
 	    fontScale = Double.parseDouble(settings.getString("font_size_preference", "1.0"));
 	    themeSettings = getThemeSettings();
 		db = new DbAdapter(getActivity());
@@ -134,26 +136,34 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		Log.d("item ID : ", "onOptionsItemSelected Item ID " + id);
-		if (id == R.id.actionbar_saveoffline) {
-			db.openToWrite();
-			boolean saved = db.saveForOffline(displayedArticle.getGuid(),
-					displayedArticle.getPubDate(),
-					displayedArticle.getTitle(),
-					displayedArticle.getDescription(),
-					displayedArticle.getAuthor());
-			db.close();
-			if (saved) {
-				Toast.makeText(getActivity().getApplicationContext(),
-						"This article has been saved for offline reading.",
-						Toast.LENGTH_LONG).show();
-			} else {
+		if (id == R.id.actionbar_saveoffline ) {
+			if(offline_mode){			
+				db.openToWrite();
+				boolean saved = db.saveForOffline(displayedArticle.getGuid(),
+						displayedArticle.getPubDate(),
+						displayedArticle.getTitle(),
+						displayedArticle.getDescription(),
+						displayedArticle.getAuthor());
+				db.close();
+				if (saved) {
+					Toast.makeText(getActivity().getApplicationContext(),
+							"This article has been saved for offline reading.",
+							Toast.LENGTH_LONG).show();
+				} else {
+					Toast.makeText(getActivity().getApplicationContext(),
+							"An error occurred when saving article.",
+							Toast.LENGTH_LONG).show();
+				}
+
+				return saved;
+			}else{
 				Toast.makeText(
 						getActivity().getApplicationContext(),
-						"There was trouble saving the article for offline reading.",
+						"Requires offline mode to be enabled.",
 						Toast.LENGTH_LONG).show();
+				return true;
 			}
 
-			return saved;
 		} else if (id == R.id.actionbar_markunread) {
 			db.openToWrite();
 			db.markAsUnread(displayedArticle.getGuid());
@@ -190,6 +200,10 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 			//Update the theme settings
 			setTheme(themeSettings);
 			Log.d("RSS_Reader1", "Theme applied successfully!");
+		}else if(key.equalsIgnoreCase("pref_key_offline_storage")){
+			
+			offline_mode = settings.getBoolean(key, false);
+			Log.d("RSS_Reader1", "Offline Mode: " + offline_mode);
 		}
 	}
 	
