@@ -42,6 +42,8 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 	private TextView authorView;
 	private View rootView;
 	private LinearLayout layout;
+	private double fontScale;
+	private String [] themeSettings;
 	Article displayedArticle;
 	DbAdapter db;
 
@@ -56,7 +58,8 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 		settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    settings.registerOnSharedPreferenceChangeListener(this);
 	    
-	    
+	    fontScale = Double.parseDouble(settings.getString("font_size_preference", "1.0"));
+	    themeSettings = getThemeSettings();
 		db = new DbAdapter(getActivity());
 		if (getArguments().containsKey(Article.KEY)) {
 			displayedArticle = (Article) getArguments().getSerializable(
@@ -77,8 +80,7 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 			rootView = inflater.inflate(R.layout.fragment_article_detail,
 				container, false);
 		if (displayedArticle != null) {
-			String [] themeSettings = getThemeSettings();
-			
+						
 			//Get the article details from the article object
 			String title = displayedArticle.getTitle();
 			String pubDate = displayedArticle.getPubDate();
@@ -105,6 +107,9 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 			
 			//Set the theme
 			setTheme(themeSettings);
+			
+			//Set the font preferences
+			setFontSize();
 			
 			//Set the content to the article's details
 			titleView.setText(title);	
@@ -167,27 +172,24 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
 		// Process application setting changes
-		//Get the Font and Theme preferences
-//		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());			
+		// Get the Font and Theme preferences	
 		if(key.equalsIgnoreCase("font_size_preference")){
-			Double fontScale = Double.parseDouble(prefs.getString(key, "1.0"));
+			fontScale = Double.parseDouble(prefs.getString(key, "1.0"));
 			
 			Log.d("RSS_Reader1", "Setting font preferences");
 			
-			//Set the font preferences
-			titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(TITLE_FONT_SIZE * fontScale));
-			authorView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(DATE_FONT_SIZE * fontScale));
-			contentView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(CONTENT_FONT_SIZE * fontScale));
+			//Set the font size preferences
+			setFontSize();
 			
 			Log.d("RSS_Reader1", "TitleSize: " + titleView.getTextSize());
 			Log.d("RSS_Reader1", "DateSize: " + authorView.getTextSize());
 			Log.d("RSS_Reader1", "ContentSize: " + contentView.getTextSize());
 		}else if(key.equalsIgnoreCase("theme_color_preference")){
-			String[] themeSettings = getThemeSettings();
-
+			themeSettings = getThemeSettings();
+			
+			//Update the theme settings
 			setTheme(themeSettings);
 			Log.d("RSS_Reader1", "Theme applied successfully!");
-
 		}
 	}
 	
@@ -200,16 +202,25 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 		}
 		return getThemeSettingsDefault();
 	}
+	
 	public String[] getThemeSettingsDefault(){
 		String[] res = {"#FFFFFF","#38b4ea","#A8A8A8","#333333"};
 		return res;
 	}
 	
 	public void setTheme(String[] theme){
+		Log.d("RSS_Reader1", "Applying theme to Article View");
 		layout.setBackgroundColor(Color.parseColor(theme[0]));		//Set Container BG Color
 		rootView.setBackgroundColor(Color.parseColor(theme[0])); 	//Set Layout BG Color
 		titleView.setTextColor(Color.parseColor(theme[1])); 		//Set Title Font Color
 		authorView.setTextColor(Color.parseColor(theme[2])); 		//Set AuthoredDate Font Color
 		contentView.setTextColor(Color.parseColor(theme[3])); 		//Set Content Font Color
+	}
+	
+	public void setFontSize(){
+		Log.d("RSS_Reader1", "Applying font size to text");
+		titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(TITLE_FONT_SIZE * fontScale));
+		authorView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(DATE_FONT_SIZE * fontScale));
+		contentView.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int)(CONTENT_FONT_SIZE * fontScale));
 	}
 }
