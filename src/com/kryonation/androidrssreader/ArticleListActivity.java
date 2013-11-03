@@ -14,13 +14,15 @@ public class ArticleListActivity extends FragmentActivity implements ArticleList
 
     private boolean mTwoPane;
     private DbAdapter dba;
-    
+    public static String PACKAGE_NAME;
     public ArticleListActivity(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PACKAGE_NAME = getApplicationContext().getPackageName();
         setContentView(R.layout.activity_article_list);
+        
         dba = new DbAdapter(this);
 
         

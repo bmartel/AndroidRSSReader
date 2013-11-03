@@ -27,8 +27,17 @@
                 android:entryValues="@array/font_sizes"
                 android:dialogTitle="@string/font_size_title" 
                 android:defaultValue="1.0"/>
-        
 
+        <ListPreference
+                android:key="theme_color_preference"
+                android:title="@string/theme_color_title"
+                android:summary="@string/theme_color_title_summary"
+                android:entries="@array/theme_preference_display"
+                android:entryValues="@array/theme_preference"
+                android:dialogTitle="@string/theme_color_title" 
+                android:defaultValue="theme_default"/>
+        
+		
     </PreferenceCategory>
     
 </PreferenceScreen>

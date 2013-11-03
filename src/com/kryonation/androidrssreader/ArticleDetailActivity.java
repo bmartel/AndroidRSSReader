@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 public class ArticleDetailActivity extends FragmentActivity {
-
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -83,8 +83,6 @@ public final class R {
         public static final int btn_refresh=0x7f060006;
         public static final int btn_settings=0x7f060004;
         public static final int display_setting_title=0x7f06000b;
-        public static final int font_color_title=0x7f06000e;
-        public static final int font_color_title_summary=0x7f06000f;
         public static final int font_size_title=0x7f06000c;
         public static final int font_size_title_summary=0x7f06000d;
         public static final int nhl_rss_feeds=0x7f060009;
@@ -112,6 +110,8 @@ public final class R {
         public static final int pref_title_system_sync_settings=0x7f060019;
         public static final int pref_title_vibrate=0x7f06001e;
         public static final int rss_selection=0x7f06000a;
+        public static final int theme_color_title=0x7f06000e;
+        public static final int theme_color_title_summary=0x7f06000f;
         public static final int title_activity_settings=0x7f060010;
         public static final int title_article_detail=0x7f060001;
         public static final int title_article_list=0x7f060002;

@@ -102,8 +102,9 @@
 	<string name="display_setting_title">Display</string>
 	<string name="font_size_title">Font Size</string>
 	<string name="font_size_title_summary">Need Larger text? Up the font size!</string>
-	<string name="font_color_title">Color Theme</string>
-	<string name="font_color_title_summary">Change the Detail View colors.</string>
+	<string name="theme_color_title">Color Theme</string>
+	<string name="theme_color_title_summary">Change the color theme of the Article Viewing Pane.</string>
+	
 	<!-- Theme Preferences -->
 	<string-array name="theme_default">
 	    <item>#FFFFFF</item> <!-- Background Color -->
@@ -118,5 +119,6 @@
 	    <item>#efefef</item> <!-- Date Font Color -->
 	    <item>#fcfcfc</item> <!-- Content Font Color -->
 	</string-array>
+	    
 		
 </resources>

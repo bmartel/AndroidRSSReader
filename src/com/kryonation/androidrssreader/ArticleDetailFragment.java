@@ -13,6 +13,7 @@ import com.kryonation.androidrssreader.util.DateUtils;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -25,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +40,8 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 	private TextView titleView;
 	private TextView contentView;
 	private TextView authorView;
+	private View rootView;
+	private LinearLayout layout;
 	Article displayedArticle;
 	DbAdapter db;
 
@@ -51,6 +55,8 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 		super.onCreate(savedInstanceState);
 		settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    settings.registerOnSharedPreferenceChangeListener(this);
+	    
+	    
 		db = new DbAdapter(getActivity());
 		if (getArguments().containsKey(Article.KEY)) {
 			displayedArticle = (Article) getArguments().getSerializable(
@@ -68,10 +74,11 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_article_detail,
+			rootView = inflater.inflate(R.layout.fragment_article_detail,
 				container, false);
 		if (displayedArticle != null) {
-
+			String [] themeSettings = getThemeSettings();
+			
 			//Get the article details from the article object
 			String title = displayedArticle.getTitle();
 			String pubDate = displayedArticle.getPubDate();
@@ -90,16 +97,15 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 			}
 			
 			//Get the view components
+			layout = (LinearLayout) rootView.findViewById(R.id.article_detail_layout);
 			contentView = (TextView) rootView.findViewById(R.id.article_detail);
 			titleView =(TextView) rootView.findViewById(R.id.article_title);
 			authorView = (TextView) rootView.findViewById(R.id.article_author);
 			
-
-//			String themeName = prefs.getString("theme_color_preference", "theme_default");
-//			
-//			int id = 1;
-//			
-//			String[] theme = getResources().getStringArray(id);
+			
+			//Set the theme
+			setTheme(themeSettings);
+			
 			//Set the content to the article's details
 			titleView.setText(title);	
 			authorView.setText(pubDate);
@@ -176,6 +182,34 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 			Log.d("RSS_Reader1", "TitleSize: " + titleView.getTextSize());
 			Log.d("RSS_Reader1", "DateSize: " + authorView.getTextSize());
 			Log.d("RSS_Reader1", "ContentSize: " + contentView.getTextSize());
+		}else if(key.equalsIgnoreCase("theme_color_preference")){
+			String[] themeSettings = getThemeSettings();
+
+			setTheme(themeSettings);
+			Log.d("RSS_Reader1", "Theme applied successfully!");
+
 		}
+	}
+	
+	public String[] getThemeSettings(){
+		if(isAdded()){
+			Log.d("RSS_Reader1", "Getting theme preferences");
+			int resourceId = this.getResources().getIdentifier(settings.getString("theme_color_preference", "theme_default"), "array", ArticleListActivity.PACKAGE_NAME);
+			
+			return getResources().getStringArray(resourceId);
+		}
+		return getThemeSettingsDefault();
+	}
+	public String[] getThemeSettingsDefault(){
+		String[] res = {"#FFFFFF","#38b4ea","#A8A8A8","#333333"};
+		return res;
+	}
+	
+	public void setTheme(String[] theme){
+		layout.setBackgroundColor(Color.parseColor(theme[0]));		//Set Container BG Color
+		rootView.setBackgroundColor(Color.parseColor(theme[0])); 	//Set Layout BG Color
+		titleView.setTextColor(Color.parseColor(theme[1])); 		//Set Title Font Color
+		authorView.setTextColor(Color.parseColor(theme[2])); 		//Set AuthoredDate Font Color
+		contentView.setTextColor(Color.parseColor(theme[3])); 		//Set Content Font Color
 	}
 }
