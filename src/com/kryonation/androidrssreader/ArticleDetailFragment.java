@@ -59,7 +59,7 @@ public class ArticleDetailFragment extends Fragment implements OnSharedPreferenc
 		settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    settings.registerOnSharedPreferenceChangeListener(this);
 	    
-	    offline_mode = settings.getBoolean("pref_key_storage_settings", false);
+	    offline_mode = settings.getBoolean("pref_key_offline_storage", false);
 	    fontScale = Double.parseDouble(settings.getString("font_size_preference", "1.0"));
 	    themeSettings = getThemeSettings();
 		db = new DbAdapter(getActivity());

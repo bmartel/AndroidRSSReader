@@ -111,6 +111,7 @@
 	    <item>#38b4ea</item> <!-- Title Font Color -->
 	    <item>#A8A8A8</item> <!-- Date Font Color -->
 	    <item>#333333</item> <!-- Content Font Color -->
+	    <item>#cee0de</item> <!-- Read Content BG Color -->
 	</string-array>
 	
 	<string-array name="theme_dark">
@@ -118,6 +119,7 @@
 	    <item>#ff652d</item> <!-- Title Font Color -->
 	    <item>#efefef</item> <!-- Date Font Color -->
 	    <item>#fcfcfc</item> <!-- Content Font Color -->
+	    <item>#7a7573</item> <!-- Read Content BG Color -->
 	</string-array>
 	<string name="pref_title_offline" >Offline Mode</string>
 	<string name="pref_offline_storage_title">Storage</string>

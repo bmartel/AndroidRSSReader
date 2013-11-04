@@ -17,11 +17,11 @@ public final class R {
         public static final int pref_example_list_values=0x7f070009;
         public static final int pref_sync_frequency_titles=0x7f07000a;
         public static final int pref_sync_frequency_values=0x7f07000b;
-        /**  Content Font Color 
+        /**  Read Content BG Color 
          */
         public static final int theme_dark=0x7f070007;
         /**  Theme Preferences 
- Content Font Color 
+ Read Content BG Color 
          */
         public static final int theme_default=0x7f070006;
         public static final int theme_preference=0x7f070005;

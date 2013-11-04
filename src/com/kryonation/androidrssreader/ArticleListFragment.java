@@ -24,6 +24,7 @@ public class ArticleListFragment extends ListFragment implements OnSharedPrefere
     private int mActivatedPosition = ListView.INVALID_POSITION;
     private RssService rssService;
     private SharedPreferences settings;
+    private String currentURL;
 
     public interface Callbacks {
         public void onItemSelected(String id);
@@ -44,8 +45,8 @@ public class ArticleListFragment extends ListFragment implements OnSharedPrefere
         super.onCreate(savedInstanceState);
         settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    settings.registerOnSharedPreferenceChangeListener(this);
-	    
-        refreshList(settings.getString("rss_feed_preference",BLOG_URL));
+	    currentURL = settings.getString("rss_feed_preference",BLOG_URL);
+        refreshList(currentURL);
     }
 
     @Override
@@ -139,8 +140,10 @@ public class ArticleListFragment extends ListFragment implements OnSharedPrefere
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		// Update the list fragment if associated preferences change
 		if(key.equalsIgnoreCase("rss_feed_preference")){
-			String feed_url = sharedPreferences.getString(key, BLOG_URL);
-			refreshList(feed_url);
+			currentURL = sharedPreferences.getString(key, BLOG_URL);
+			refreshList(currentURL);
+		}else if(key.equalsIgnoreCase("theme_color_preference")){
+			refreshList(currentURL);
 		}
 		
 	}
